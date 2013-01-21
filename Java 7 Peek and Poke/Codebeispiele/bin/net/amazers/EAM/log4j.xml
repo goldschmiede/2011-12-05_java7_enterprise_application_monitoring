@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+  <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+  <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="SRV: %-5p [%C:%M:%L] %X{application} %X{app.env} %m%n" />
+    </layout>
+	<filter class="net.amazers.EAM.LogHubAppEnvSetterFilter"/>
+  </appender>
+  <appender name="Chainsaw" class="org.apache.log4j.net.SocketHubAppender">
+    <param name="Port" value="${loghub.serverport}"/>
+    <!--<param name="Port" value="4580"/>-->
+	<param name="BufferSize" value="300"/>
+	<filter class="net.amazers.EAM.LogHubAppEnvSetterFilter"/>
+  </appender>
+  <logger name="org.springframework">
+    <!-- level info logs -->
+    <level value="WARN" />
+    <!--<appender-ref ref="Console" />-->
+	<appender-ref ref="Chainsaw" />
+  </logger>
+  <logger name="org.apache.log4j.net">
+    <!-- level info logs -->
+    <level value="WARN" />
+    <!--<appender-ref ref="Console" />-->
+	<appender-ref ref="Chainsaw" />
+  </logger>
+
+  <root>
+    <level value="debug" />
+    <!--<appender-ref ref="Console" />-->
+	<appender-ref ref="Chainsaw" />
+   </root>
+</log4j:configuration>
